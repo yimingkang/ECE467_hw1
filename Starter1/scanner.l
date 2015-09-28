@@ -24,13 +24,25 @@ int tokenID = 0;
 %}
 %option noyywrap
 
-WS          [ \t]
-INTVAL      [1-9][0-9]+
+WS          [ \t\n]
+INTVAL      [+-]?([1-9][0-9]+|0)
 DATA_TYPE   bool|int|float|[bi]?vec[234]
 QUALIFIER   const
-FLOAT       [+-]?
-
-
+FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
+BOOLVAL     true|false
+KW_COND     else|if
+KW_VOID     void
+KW_WHILE    while
+KW_FUNC     dp3|lit|rsq
+BRACK       \(|\)
+BRACK_SQ    \[|\]
+SCOPE       \{|\}
+COMMA       ,
+SEMICOL     ;
+COLON       :
+OP_ASSIGN   =
+OP_CMP      >|<|>=|<=|!=?|==|&&|\|\|
+OP_OP       +|-|*|/|^
 
 
 %%
@@ -59,6 +71,21 @@ FLOAT       [+-]?
 
 {INTVAL} {
         printf("HI int\n");
+        return T_INT;
+}
+
+{COMMA} {
+        printf("HI comma\n");
+        return T_INT;
+}
+
+{SEMICOL} {
+        printf("HI Semi\n");
+        return T_INT;
+}
+
+{COL} {
+        printf("HI col\n");
         return T_INT;
 }
 
