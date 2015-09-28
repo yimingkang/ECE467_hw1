@@ -27,8 +27,9 @@ int tokenID = 0;
 WS          [ \t]
 INTVAL      [1-9][0-9]+
 DATA_TYPE   bool|int|float|[bi]?vec[234]
-QUALIFIER   const|attribute|uniform|varying
+QUALIFIER   const
 FLOAT       [+-]?
+
 
 
 
@@ -51,6 +52,15 @@ FLOAT       [+-]?
                   yyline++;
               }
             }
+
+{WS} {
+        printf("HI space\n");
+}
+
+{INTVAL} {
+        printf("HI int\n");
+        return T_INT;
+}
 
 .           { yERROR("Unknown token"); }
 

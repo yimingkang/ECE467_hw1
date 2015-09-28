@@ -39,3 +39,4 @@ compiler467
 *.mini
 *.pdf
 parser.c
+.DS_Store
