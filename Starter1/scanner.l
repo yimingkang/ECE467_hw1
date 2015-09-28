@@ -19,11 +19,18 @@
 
 int CheckInt(void);
 int yyline = 1;
+int tokenID = 0;
 
 %}
 %option noyywrap
 
 WS          [ \t]
+INTVAL      [1-9][0-9]+
+DATA_TYPE   bool|int|float|[bi]?vec[234]
+QUALIFIER   const|attribute|uniform|varying
+FLOAT       [+-]?
+
+
 
 %%
 "/*"        {

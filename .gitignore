@@ -30,3 +30,12 @@
 
 # Debug files
 *.dSYM/
+
+compiler467
+*.output
+*.o
+*.tab.h
+*.glsl
+*.mini
+*.pdf
+parser.c
