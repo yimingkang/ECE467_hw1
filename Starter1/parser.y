@@ -1,9 +1,9 @@
 %{
 /***********************************************************************
  * --YOUR GROUP INFO SHOULD GO HERE--
- * 
+ *
  *   Interface to the parser module for CSC467 course project.
- * 
+ *
  *   Phase 2: Implement context free grammar for source language, and
  *            parse tracing functionality.
  *   Phase 3: Construct the AST for the source language program.
@@ -58,7 +58,26 @@ extern int yyline;        /* variable holding current line number   */
   int num;
 }
 // TODO:Replace myToken with your tokens, you can use these tokens in flex
-%token           T_INT myToken2  
+%token           myToken1 myToken2
+    INTVAL
+    DATA_TYPE
+    QUALIFIER
+    FLOATVAL
+    BOOLVAL
+    KW_COND
+    KW_VOID
+    KW_WHILE
+    KW_FUNC
+    BRACK
+    BRACK_SQ
+    SCOPE
+    COMMA
+    SEMICOL
+    COLON
+    OP_ASSIGN
+    OP_CMP
+    OP_OP
+    WS
 
 
 %start    program
@@ -75,16 +94,35 @@ extern int yyline;        /* variable holding current line number   */
  *    1. Add code to rules for construction of AST.
  ***********************************************************************/
 program
-  :   tokens       
+  :   tokens
   ;
 tokens
-  :  tokens token  
-  |      
+  :  tokens token
+  |
   ;
 // TODO: replace myToken with the token the you defined.
 token
-  :     T_INT
-  |     myToken2                     
+  :  myToken1
+  |  myToken2
+  |  INTVAL
+  |  DATA_TYPE
+  |  QUALIFIER
+  |  FLOATVAL
+  |  BOOLVAL
+  |  KW_COND
+  |  KW_VOID
+  |  KW_WHILE
+  |  KW_FUNC
+  |  BRACK
+  |  BRACK_SQ
+  |  SCOPE
+  |  COMMA
+  |  SEMICOL
+  |  COLON
+  |  OP_ASSIGN
+  |  OP_CMP
+  |  OP_OP
+  |  WS
   ;
 
 
@@ -101,7 +139,7 @@ void yyerror(char* s) {
     return;    /* Error has already been reported by scanner */
   else
     errorOccurred = 1;
-        
+
   fprintf(errorFile, "\nPARSER ERROR, LINE %d",yyline);
   if (strcmp(s, "parse error")) {
     if (strncmp(s, "parse error, ", 13))

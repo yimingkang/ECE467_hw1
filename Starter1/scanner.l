@@ -56,8 +56,9 @@ OP_OP       +|-|*|/|^
                   errorOccurred = TRUE;
                   yyterminate();
                 }
-                if (c1 == '*' && c2 == '/')
-                  break;
+                if (c1 == '*' && c2 == '/') {
+                    break;
+                }
                 c1 = c2;
                 c2 = yyinput();
                 if (c1 == '\n' && c2 != EOF)
@@ -66,28 +67,28 @@ OP_OP       +|-|*|/|^
             }
 
 {WS} {
-        printf("HI space\n");
-}
+    yTRACE(WS);
+     }
 
 {INTVAL} {
-        printf("HI int\n");
-        return T_INT;
-}
+    yTRACE(INTVAL);
+    return INTVAL;
+         }
 
 {COMMA} {
-        printf("HI comma\n");
-        return T_INT;
-}
+    yTRACE(COMMA);
+    return myToken1;
+        }
 
 {SEMICOL} {
-        printf("HI Semi\n");
-        return T_INT;
-}
+    yTRACE(SEMICOL);
+    return myToken1;
+          }
 
-{COL} {
-        printf("HI col\n");
-        return T_INT;
-}
+{COLON} {
+    yTRACE(COLON);
+    return myToken1;
+      }
 
 .           { yERROR("Unknown token"); }
 
