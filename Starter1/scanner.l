@@ -25,7 +25,7 @@ int tokenID = 0;
 %option noyywrap
 
 WS          [ \t\n]
-INTVAL      [+-]?([1-9][0-9]+|0)
+INTVAL      [+-]?([1-9][0-9]*|0)
 DATA_TYPE   bool|int|float|[bi]?vec[234]
 QUALIFIER   const
 FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
@@ -43,6 +43,11 @@ COLON       :
 OP_ASSIGN   =
 OP_CMP      >|<|>=|<=|!=?|==|&&|\|\|
 OP_OP       +|-|*|/|^
+DIGITS      [0-9]
+LOWER       [a-z]
+UPPER       [A-Z]
+LETTERS     [a-zA-Z]
+VALID_CHAR  [0-9a-zA-Z_]
 
 
 %%
@@ -89,6 +94,60 @@ OP_OP       +|-|*|/|^
     yTRACE(COLON);
     return myToken1;
       }
+
+{DATA_TYPE}{
+        switch(yytext){
+            case "bool":
+                yTRACE(T_BOOL);
+                return T_BOOL;
+            case "int":
+                yTRACE(T_INT);
+                return T_INT;
+            case "float":
+                yTRACE(T_FLOAT);
+                return T_FLOAT;       
+        }
+    }
+
+{VEC_TYPE}{
+    switch((char) *yytext){
+        case 'b':
+            yylval.num = (int) *(yytext + 4) - (int) '0'; 
+            yTRACE(T_BVEC);
+            return T_BVEC;
+        case 'i':
+            yylval.num = (int) *(yytext + 4) - (int) '0';
+            yTRACE(T_IVEC);
+            return T_IVEC;
+        default:
+            yylval.num = (int) *(yytext + 3) - (int) '0'; 
+            yTRACE(T_VEC);
+            return T_VEC;
+    }
+}
+DATA_TYPE   bool|int|float
+VEC_TYPE    [bi]?vec[234]
+QUALIFIER   const
+FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
+BOOLVAL     true|false
+KW_COND     else|if
+KW_VOID     void
+KW_WHILE    while
+KW_FUNC     dp3|lit|rsq
+BRACK       \(|\)
+BRACK_SQ    \[|\]
+SCOPE       \{|\}
+COMMA       ,
+SEMICOL     ;
+COLON       :
+OP_ASSIGN   =
+OP_CMP      >|<|>=|<=|!=?|==|&&|\|\|
+OP_OP       +|-|*|/|^
+DIGITS      [0-9]
+LOWER       [a-z]
+UPPER       [A-Z]
+LETTERS     [a-zA-Z]
+VALID_CHAR  [0-9a-zA-Z_]
 
 .           { yERROR("Unknown token"); }
 
