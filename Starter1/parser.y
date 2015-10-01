@@ -87,6 +87,7 @@ extern int yyline;        /* variable holding current line number   */
 %token           T_VEC
 %token           T_VOID
 %token           T_WHILE
+%token           T_ID
 
 
 %start    program
@@ -137,6 +138,7 @@ token
   |  T_VEC
   |  T_VOID
   |  T_WHILE
+  |  T_ID
   ;
 
 

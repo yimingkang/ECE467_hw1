@@ -34,7 +34,7 @@ COMMA       ,
 DATA_TYPE   bool|int|float
 DQUOTE      "
 FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
-IDENTIFIER  [a-Z_]+[0-9a-Z_]*
+IDENTIFIER  [a-zA-Z_]+[0-9a-zA-Z_]*
 INTVAL      [+-]?([1-9][0-9]*|0)
 KW_COND     else|if
 KW_FUNC     dp3|lit|rsq
@@ -235,6 +235,17 @@ WS          [ \t\n]
     yTRACE(T_OP);
     return (T_OP);
 }
+
+{IDENTIFIER} {
+    yylval.text = (char *) malloc(strlen((yytext) + 1) * sizeof(char));
+
+    // possible buffer overflow if there's a bug in parser
+    // b/c we're not checking the size of yytext in strcpy
+    strcpy(yylval.text, yytext);
+    yTRACE(T_ID);
+    return (T_ID);
+}
+
 
 .           { yERROR("Unknown token"); }
 
