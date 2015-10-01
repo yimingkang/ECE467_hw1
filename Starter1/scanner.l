@@ -33,7 +33,7 @@ COLON       :
 COMMA       ,
 DATA_TYPE   bool|int|float
 DQUOTE      "
-FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
+FLOATVAL    [+-]?([1-9][0-9]*|0?)\.[0-9]+
 IDENTIFIER  [a-zA-Z_]+[0-9a-zA-Z_]*
 INTVAL      [+-]?([1-9][0-9]*|0)
 KW_COND     else|if
@@ -244,6 +244,14 @@ WS          [ \t\n]
     strcpy(yylval.text, yytext);
     yTRACE(T_ID);
     return (T_ID);
+}
+
+{FLOATVAL} {
+    float fval = atof(yytext);
+    yylval.fval = fval;
+    yTRACE(T_FLOATVAL);
+    return T_FLOATVAL;
+
 }
 
 

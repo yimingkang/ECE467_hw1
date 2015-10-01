@@ -58,7 +58,7 @@ extern int yyline;        /* variable holding current line number   */
   int num;
   char *text;
   char c;
-  float float_val;
+  float fval;
 }
 // TODO:Replace myToken with your tokens, you can use these tokens in flex
 %token           myToken1
@@ -75,6 +75,7 @@ extern int yyline;        /* variable holding current line number   */
 %token           T_FUNC
 %token           T_INT
 %token           T_INTVAL
+%token           T_FLOATVAL
 %token           T_IVEC
 %token           T_LBRACK
 %token           T_LBRACK_CU
@@ -126,6 +127,7 @@ token
   |  T_FUNC
   |  T_INT
   |  T_INTVAL
+  |  T_FLOATVAL
   |  T_IVEC
   |  T_LBRACK
   |  T_LBRACK_CU
