@@ -25,31 +25,29 @@ int tokenID = 0;
 %}
 %option noyywrap
 
-WS          [ \t\n]
-INTVAL      [+-]?([1-9][0-9]*|0)
-DATA_TYPE   bool|int|float
-VEC_TYPE    [bi]?vec[234]
-QUALIFIER   const
-FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
 BOOLVAL     true|false
+BRACK       \(|\)
+BRACK_CU    \{|\}
+BRACK_SQ    \[|\]
+COLON       :
+COMMA       ,
+DATA_TYPE   bool|int|float
+DQUOTE      "
+FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
+IDENTIFIER  [a-Z_]+[0-9a-Z_]*
+INTVAL      [+-]?([1-9][0-9]*|0)
 KW_COND     else|if
+KW_FUNC     dp3|lit|rsq
 KW_VOID     void
 KW_WHILE    while
-KW_FUNC     dp3|lit|rsq
-BRACK       \(|\)
-BRACK_SQ    \[|\]
-BRACK_CU    \{|\}
-COMMA       ,
-SEMICOL     ;
-COLON       :
-DQUOTE      "
-QUOTE       '
 OP_ASSIGN   =
 OP_CMP      !|>|<|>=|<=|!=|==|&&|\|\|
-OP_OP       +|-|*|/|^
-IDENTIFIER  [a-Z_]+[0-9a-Z_]*
-
-
+OP_OP       \+|-|\*|\/|^
+QUALIFIER   const
+QUOTE       '
+SEMICOL     ;
+VEC_TYPE    [bi]?vec[234]
+WS          [ \t\n]
 
 %%
 "/*"        {
@@ -72,19 +70,18 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
               }
             }
 
-{WS} {
-    yTRACE(WS);
-     }
-
-{INTVAL} {
-    yTRACE(INTVAL);
-    return INTVAL;
-         }
-
 {COMMA} {
     yTRACE(T_COMMA);
     return T_COMMA;
         }
+
+{WS} {
+     }
+
+{INTVAL} {
+    yTRACE(T_INTVAL);
+    return T_INTVAL;
+         }
 
 {SEMICOL} {
     yTRACE(T_SEMICOL);
@@ -106,14 +103,14 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
                 return T_INT;
             case 'f':
                 yTRACE(T_FLOAT);
-                return T_FLOAT;       
+                return T_FLOAT;
         }
     }
 
 {VEC_TYPE} {
     switch(yytext[0]){
         case 'b':
-            yylval.num = (int) *(yytext + 4) - (int) '0'; 
+            yylval.num = (int) *(yytext + 4) - (int) '0';
             yTRACE(T_BVEC);
             return T_BVEC;
         case 'i':
@@ -121,11 +118,11 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
             yTRACE(T_IVEC);
             return T_IVEC;
         case 'v':
-            yylval.num = (int) *(yytext + 3) - (int) '0'; 
+            yylval.num = (int) *(yytext + 3) - (int) '0';
             yTRACE(T_VEC);
             return T_VEC;
         default:
-            yERROR("Parser error! Should not have gone here: %s\n", yytext);
+            yERROR(yytext);
     }
 }
 
@@ -143,7 +140,7 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
             yylval.num = 0;
             break;
         default:
-            yERROR("Parser error! Should not have gone here: %s\n", yytext);
+            yERROR(yytext);
     }
     yTRACE(T_BOOL);
     return T_BOOL;
@@ -151,12 +148,12 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
 
 {KW_COND} {
     yylval.text = (char *) malloc((strlen(yytext) + 1) * sizeof(char));
-    
-    // possible buffer overflow if there's a bug in parser 
+
+    // possible buffer overflow if there's a bug in parser
     // b/c we're not checking the size of yytext in strcpy
     strcpy(yylval.text, yytext);
-    yTRACE(T_BOOL);
-    return T_BOOL;
+    yTRACE(T_COND);
+    return T_COND;
 }
 
 {KW_VOID} {
@@ -171,13 +168,14 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
 
 {KW_FUNC} {
     yylval.text = (char *) malloc((strlen(yytext) + 1) * sizeof(char));
-    
-    // possible buffer overflow if there's a bug in parser 
+
+    // possible buffer overflow if there's a bug in parser
     // b/c we're not checking the size of yytext in strcpy
     strcpy(yylval.text, yytext);
     yTRACE(T_FUNC);
     return (T_FUNC);
 }
+
 {BRACK} {
     switch(yytext[0]){
         case '(':
@@ -187,7 +185,7 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
             yTRACE(T_RBRACK);
             return T_RBRACK;
         default:
-            yERROR("Parser error! Should not have gone here: %s\n", yytext);
+            yERROR(yytext);
     }
 }
 
@@ -200,7 +198,7 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
             yTRACE(T_RBRACK_SQ);
             return T_RBRACK_SQ;
         default:
-            yERROR("Parser error! Should not have gone here: %s\n", yytext);
+            yERROR(yytext);
     }
 }
 
@@ -213,7 +211,7 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
             yTRACE(T_RBRACK_CU);
             return T_RBRACK_CU;
         default:
-            yERROR("Parser error! Should not have gone here: %s\n", yytext);
+            yERROR(yytext);
     }
 }
 
@@ -223,16 +221,16 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
 }
 
 {OP_CMP} {
-    yylval.text = (char *) malloc(strlen((yytext) + 1) * sizeof(char)); 
+    yylval.text = (char *) malloc(strlen((yytext) + 1) * sizeof(char));
 
-    // possible buffer overflow if there's a bug in parser 
+    // possible buffer overflow if there's a bug in parser
     // b/c we're not checking the size of yytext in strcpy
     strcpy(yylval.text, yytext);
     yTRACE(T_CMP);
     return (T_CMP);
 }
 
-{OP_CMP} {
+{OP_OP} {
     yylval.c = yytext[0];
     yTRACE(T_OP);
     return (T_OP);
@@ -241,3 +239,4 @@ IDENTIFIER  [a-Z_]+[0-9a-Z_]*
 .           { yERROR("Unknown token"); }
 
 %%
+

@@ -61,7 +61,32 @@ extern int yyline;        /* variable holding current line number   */
   float float_val;
 }
 // TODO:Replace myToken with your tokens, you can use these tokens in flex
-%token           myToken1 myToken2
+%token           myToken1
+%token           myToken2
+%token           T_ASSIGN
+%token           T_BOOL
+%token           T_BVEC
+%token           T_CMP
+%token           T_COLON
+%token           T_COMMA
+%token           T_COND
+%token           T_CONST
+%token           T_FLOAT
+%token           T_FUNC
+%token           T_INT
+%token           T_INTVAL
+%token           T_IVEC
+%token           T_LBRACK
+%token           T_LBRACK_CU
+%token           T_LBRACK_SQ
+%token           T_OP
+%token           T_RBRACK
+%token           T_RBRACK_CU
+%token           T_RBRACK_SQ
+%token           T_SEMICOL
+%token           T_VEC
+%token           T_VOID
+%token           T_WHILE
 
 
 %start    program
@@ -88,25 +113,30 @@ tokens
 token
   :  myToken1
   |  myToken2
-  |  INTVAL
-  |  DATA_TYPE
-  |  QUALIFIER
-  |  FLOATVAL
-  |  BOOLVAL
-  |  KW_COND
-  |  KW_VOID
-  |  KW_WHILE
-  |  KW_FUNC
-  |  BRACK
-  |  BRACK_SQ
-  |  SCOPE
-  |  COMMA
-  |  SEMICOL
-  |  COLON
-  |  OP_ASSIGN
-  |  OP_CMP
-  |  OP_OP
-  |  WS
+  |  T_ASSIGN
+  |  T_BOOL
+  |  T_BVEC
+  |  T_CMP
+  |  T_COLON
+  |  T_COMMA
+  |  T_COND
+  |  T_CONST
+  |  T_FLOAT
+  |  T_FUNC
+  |  T_INT
+  |  T_INTVAL
+  |  T_IVEC
+  |  T_LBRACK
+  |  T_LBRACK_CU
+  |  T_LBRACK_SQ
+  |  T_OP
+  |  T_RBRACK
+  |  T_RBRACK_CU
+  |  T_RBRACK_SQ
+  |  T_SEMICOL
+  |  T_VEC
+  |  T_VOID
+  |  T_WHILE
   ;
 
 
