@@ -15,6 +15,7 @@
 #define YY_USER_INIT { yyin = inputFile; }
 #define	yyinput      input
 #define yTRACE(x)    { if (traceScanner) fprintf(traceFile, "TOKEN %3d : %s\n", x, yytext); }
+#define yRETURN(x)   {yTRACE(x); return x;}
 #define yERROR(x)    { fprintf(errorFile, "\nLEXICAL ERROR, LINE %d: %s\n", yyline, x); errorOccurred = TRUE; yyterminate(); }
 
 int CheckInt(void);
@@ -44,13 +45,9 @@ COLON       :
 DQUOTE      "
 QUOTE       '
 OP_ASSIGN   =
-OP_CMP      >|<|>=|<=|!=?|==|&&|\|\|
+OP_CMP      !|>|<|>=|<=|!=|==|&&|\|\|
 OP_OP       +|-|*|/|^
-DIGITS      [0-9]
-LOWER       [a-z]
-UPPER       [A-Z]
-LETTERS     [a-zA-Z]
-VALID_CHAR  [0-9a-zA-Z_]
+IDENTIFIER  [a-Z_]+[0-9a-Z_]*
 
 
 
@@ -153,11 +150,11 @@ VALID_CHAR  [0-9a-zA-Z_]
 }
 
 {KW_COND} {
-    yylval.s = (char *) malloc((strlen(yytext) + 1) * sizeof(char));
+    yylval.text = (char *) malloc((strlen(yytext) + 1) * sizeof(char));
     
     // possible buffer overflow if there's a bug in parser 
     // b/c we're not checking the size of yytext in strcpy
-    strcpy(yylval.s, yytext);
+    strcpy(yylval.text, yytext);
     yTRACE(T_BOOL);
     return T_BOOL;
 }
@@ -173,11 +170,11 @@ VALID_CHAR  [0-9a-zA-Z_]
 }
 
 {KW_FUNC} {
-    yylval.s = (char *) malloc((strlen(yytext) + 1) * sizeof(char));
+    yylval.text = (char *) malloc((strlen(yytext) + 1) * sizeof(char));
     
     // possible buffer overflow if there's a bug in parser 
     // b/c we're not checking the size of yytext in strcpy
-    strcpy(yylval.s, yytext);
+    strcpy(yylval.text, yytext);
     yTRACE(T_FUNC);
     return (T_FUNC);
 }
@@ -220,17 +217,26 @@ VALID_CHAR  [0-9a-zA-Z_]
     }
 }
 
+{OP_ASSIGN} {
+    yTRACE(T_ASSIGN);
+    return (T_ASSIGN);
+}
 
-OP_ASSIGN   =
-OP_CMP      >|<|>=|<=|!=?|==|&&|\|\|
-OP_OP       +|-|*|/|^
-DIGITS      [0-9]
-LOWER       [a-z]
-UPPER       [A-Z]
-LETTERS     [a-zA-Z]
-VALID_CHAR  [0-9a-zA-Z_]
+{OP_CMP} {
+    yylval.text = (char *) malloc(strlen((yytext) + 1) * sizeof(char)); 
 
-*FLOATVAL    [+-]?([0-9][1-9]*|).[0-9]+
+    // possible buffer overflow if there's a bug in parser 
+    // b/c we're not checking the size of yytext in strcpy
+    strcpy(yylval.text, yytext);
+    yTRACE(T_CMP);
+    return (T_CMP);
+}
+
+{OP_CMP} {
+    yylval.c = yytext[0];
+    yTRACE(T_OP);
+    return (T_OP);
+}
 
 .           { yERROR("Unknown token"); }
 
