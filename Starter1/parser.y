@@ -56,28 +56,12 @@ extern int yyline;        /* variable holding current line number   */
 
 %union {
   int num;
+  char *text;
+  char c;
+  float float_val;
 }
 // TODO:Replace myToken with your tokens, you can use these tokens in flex
 %token           myToken1 myToken2
-    INTVAL
-    DATA_TYPE
-    QUALIFIER
-    FLOATVAL
-    BOOLVAL
-    KW_COND
-    KW_VOID
-    KW_WHILE
-    KW_FUNC
-    BRACK
-    BRACK_SQ
-    SCOPE
-    COMMA
-    SEMICOL
-    COLON
-    OP_ASSIGN
-    OP_CMP
-    OP_OP
-    WS
 
 
 %start    program
