@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "=================== TESTING STARTS ===================="
+echo ""
 for file in ./*.glsl; do
     ../compiler467 -Tn "$file" > "$file".out
     DIFF=$(diff "$file".out "$file".target)
@@ -10,3 +12,4 @@ for file in ./*.glsl; do
         echo "OK"
     fi
 done
+echo "================+=== TESTING ENDS ==================+=="
