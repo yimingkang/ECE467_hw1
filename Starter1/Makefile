@@ -54,6 +54,9 @@ clean:
 man:
 	@nroff -man compiler467.man | less
 
+test:
+	make all && cd tests && bash run.sh
+
 ###########################################################################
 #	Dependencies for the compiler
 ###########################################################################
