@@ -12,4 +12,5 @@ for file in ./*.frog; do
         echo "OK"
     fi
 done
+rm -f *.out
 echo "================+=== TESTING ENDS ==================+=="
