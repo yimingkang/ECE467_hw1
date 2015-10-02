@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "=================== TESTING STARTS ===================="
 echo ""
-for file in ./*.glsl; do
+for file in ./*.frog; do
     ../compiler467 -Tn "$file" > "$file".out
     DIFF=$(diff "$file".out "$file".target)
     if [ "$DIFF" != "" ] 
