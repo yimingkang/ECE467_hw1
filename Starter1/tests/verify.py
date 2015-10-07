@@ -16,6 +16,8 @@ def main(file_name):
         for line in fin:
             line_num += 1
             matched = lex_output_regex.match(line)
+            if matched is None:
+                continue
             value = matched.group(1)
             token = matched.group(2)
             if token in KNOWN_TOKENS:

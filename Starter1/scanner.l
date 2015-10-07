@@ -79,6 +79,17 @@ WS          [ \t\n]
      }
 
 {INTVAL} {
+    if (strlen(yytext) > 5){
+        // Might overflow int dont store
+        yERROR("Integer out of range [32767, -32767]");
+    }else{
+        // Will not overflow int 
+        int val = atoi(yytext);
+        if(val < -32767 || val > 32767){
+            yERROR("Integer out of range [32767, -32767]");
+        }
+        yylval.num = val;
+    }
     yTRACE(T_INTVAL);
     return T_INTVAL;
          }
@@ -247,11 +258,11 @@ WS          [ \t\n]
 }
 
 {FLOATVAL} {
+    // check for out of range??
     float fval = atof(yytext);
     yylval.fval = fval;
     yTRACE(T_FLOATVAL);
     return T_FLOATVAL;
-
 }
 
 

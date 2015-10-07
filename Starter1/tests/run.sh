@@ -2,7 +2,7 @@
 echo "=================== TESTING STARTS ===================="
 echo ""
 for file in ./*.frag; do
-    ../compiler467 -Tn "$file" > "$file".out
+    ../compiler467 -Tn "$file" > "$file".out 2>&1
     DIFF=$(diff "$file".out "$file".target)
     OUT=$(python verify.py "$file".out)
     if [ "$DIFF" != "" ] 
