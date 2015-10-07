@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "=================== TESTING STARTS ===================="
 echo ""
-for file in ./*.frog; do
+for file in ./*.frag; do
     ../compiler467 -Tn "$file" > "$file".out
     DIFF=$(diff "$file".out "$file".target)
     OUT=$(python verify.py "$file".out)
