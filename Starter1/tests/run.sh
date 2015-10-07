@@ -7,20 +7,20 @@ for file in ./*.frag; do
     OUT=$(python verify.py "$file".out)
     if [ "$DIFF" != "" ] 
     then
+        printf "diff   %-30s --- \e[1;31mFAILED\e[1;0m\n" "$file"
         echo "*****TEST $file FAILED TO MATCH TARGET*****"
-        printf "diff   %-30s --- FAILED\n" "$file"
         diff "$file".out "$file".target
     else
-        printf "diff   %-30s --- OK\n" "$file"
+        printf "diff   %-30s --- \e[1;32mOK\e[1;0m\n" "$file"
     fi
 
     if [ "$OUT" != "" ] 
     then
+        printf "verify %-30s --- \e[1;31mFAILED\e[1;0m\n" "$file"
         echo "*****TEST $file FAILED TO PRODUCE CONSITENT TOKEN*****"
-        printf "verify %-30s --- FAILED\n" "$file"
         python verify.py "$file".out
     else
-        printf "verify %-30s --- OK\n" "$file"
+        printf "verify %-30s --- \e[1;32mOK\e[1;0m\n" "$file"
     fi
 done
 rm -f *.out
