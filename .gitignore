@@ -35,6 +35,5 @@ compiler467
 *.output
 *.o
 *.tab.h
-*.pdf
 parser.c
 .DS_Store
