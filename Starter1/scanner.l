@@ -251,6 +251,10 @@ WS          [ \t\n]
 }
 
 {IDENTIFIER} {
+    // Check for maximum length
+    if(strlen(yytext) > 32){
+        yERROR("Identifier exeeds maximum length of 32 characers");
+    }
     yylval.text = (char *) malloc(strlen((yytext) + 1) * sizeof(char));
 
     // possible buffer overflow if there's a bug in parser
