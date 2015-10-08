@@ -79,14 +79,16 @@ WS          [ \t\n]
      }
 
 {INTVAL} {
-    if (strlen(yytext) > 5){
+    if (strlen(yytext) > 7){
         // Might overflow int dont store
-        yERROR("Integer out of range [32767, -32767]");
+        yERROR("Integer out of range [-2097152, 2097151]");
     }else{
         // Will not overflow int 
         int val = atoi(yytext);
-        if(val < -32767 || val > 32767){
-            yERROR("Integer out of range [32767, -32767]");
+
+        // max is +/- 2^21-1
+        if(val < -2097152 || val > 2097151){
+            yERROR("Integer out of range [-2097151, 2097152]");
         }
         yylval.num = val;
     }
