@@ -2,7 +2,7 @@ import re
 import sys
 
 KNOWN_TOKENS = [
-        'if', 'else', 'for', 'while', 'void', ',', '(', ')', 
+        'if', 'else', 'for', 'while', ',', '(', ')', 
         '{', '}', '[', ']', ':', 'bool', 'int', 'float',
         '"', 'dp3', 'lit', 'rsq', '=', 'const', ';', '\'',
 ]

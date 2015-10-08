@@ -38,7 +38,6 @@ IDENTIFIER  [a-zA-Z_]+[0-9a-zA-Z_]*
 INTVAL      [+-]?([1-9][0-9]*|0)
 KW_COND     else|if
 KW_FUNC     dp3|lit|rsq
-KW_VOID     void
 KW_WHILE    while
 OP_ASSIGN   =
 OP_CMP      !|>|<|>=|<=|!=|==|&&|\|\|
@@ -169,10 +168,6 @@ WS          [ \t\n]
     return T_COND;
 }
 
-{KW_VOID} {
-    yTRACE(T_VOID);
-    return (T_VOID);
-}
 
 {KW_WHILE} {
     yTRACE(T_WHILE);
