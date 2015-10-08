@@ -11,7 +11,7 @@
 #include "common.h"
 #include "parser.tab.h"
 #include "string.h"
-
+#include <math.h>
 
 #define YY_USER_INIT { yyin = inputFile; }
 #define	yyinput      input
@@ -34,9 +34,9 @@ COLON       :
 COMMA       ,
 DATA_TYPE   bool|int|float
 DQUOTE      "
-FLOATVAL    [+-]?([1-9][0-9]*|0?)\.[0-9]+
+FLOATVAL    ([1-9][0-9]*|0?)\.[0-9]+
 IDENTIFIER  [a-zA-Z_]+[0-9a-zA-Z_]*
-INTVAL      [+-]?([1-9][0-9]*|0)
+INTVAL      ([1-9][0-9]*|0)
 KW_COND     else|if
 KW_FUNC     dp3|lit|rsq
 KW_WHILE    while
@@ -262,6 +262,9 @@ WS          [ \t\n]
 {FLOATVAL} {
     // check for out of range??
     float fval = atof(yytext);
+    if (isinf(fval)){
+        yERROR("Float out of range!");
+    }
     yylval.fval = fval;
     yTRACE(T_FLOATVAL);
     return T_FLOATVAL;
