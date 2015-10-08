@@ -12,6 +12,11 @@ both labor intensive and inaccurate. Therefore we came up with our own testing f
   * diff target -Tn output with -Tn output of each run
   * check the consistency of tokens generated within a file (keyword int should have the same token)
 
+Testing:  
+`make` compiles the code  
+`make test` compliles and runs diff and consistency tests  
+`make target` sets the current output as target  
+
 ``` shell
 #!/bin/bash
 echo "=================== TESTING STARTS ===================="
