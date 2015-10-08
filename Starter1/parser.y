@@ -86,7 +86,6 @@ extern int yyline;        /* variable holding current line number   */
 %token           T_RBRACK_SQ
 %token           T_SEMICOL
 %token           T_VEC
-%token           T_VOID
 %token           T_WHILE
 %token           T_ID
 
@@ -138,7 +137,6 @@ token
   |  T_RBRACK_SQ
   |  T_SEMICOL
   |  T_VEC
-  |  T_VOID
   |  T_WHILE
   |  T_ID
   ;

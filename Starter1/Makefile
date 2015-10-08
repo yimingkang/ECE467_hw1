@@ -57,6 +57,9 @@ man:
 test:
 	make all > /dev/null && cd tests && bash run.sh
 
+target:
+	make all > /dev/null && cd tests && bash target.sh
+
 ###########################################################################
 #	Dependencies for the compiler
 ###########################################################################

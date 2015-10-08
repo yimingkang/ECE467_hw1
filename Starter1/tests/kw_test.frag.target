@@ -6,7 +6,7 @@ TOKEN 279 : }
 TOKEN 266 : else
 TOKEN 275 : {
 TOKEN 279 : }
-TOKEN 284 : while
+TOKEN 283 : while
 TOKEN 274 : (
 TOKEN 278 : )
 TOKEN 275 : {
@@ -24,7 +24,7 @@ TOKEN 279 : }
 TOKEN 266 : else
 TOKEN 275 : {
 TOKEN 279 : }
-TOKEN 284 : while
+TOKEN 283 : while
 TOKEN 274 : (
 TOKEN 278 : )
 TOKEN 275 : {
@@ -53,5 +53,3 @@ TOKEN 269 : rsq
 TOKEN 274 : (
 TOKEN 278 : )
 TOKEN 281 : ;
-TOKEN 283 : void
-TOKEN 283 : void

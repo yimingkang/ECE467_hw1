@@ -1,6 +1,5 @@
 /*  KW_COND     else|if
     KW_FUNC     dp3|lit|rsq
-    KW_VOID     void
     KW_WHILE    while
  */
 
@@ -40,8 +39,3 @@ rsq();
 dp3();
 lit();
 rsq();
-
-
-/* void */
-void
-void
