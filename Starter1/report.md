@@ -13,9 +13,9 @@ both labor intensive and inaccurate. Therefore we came up with our own testing f
   * check the consistency of tokens generated within a file (keyword int should have the same token)
 
 Testing:
-`make` compiles the code
-`make test` compliles and runs diff and consistency tests 
-`make target` sets the current output as target
+`make` compiles the code  
+`make test` compliles and runs diff and consistency tests  
+`make target` sets the current output as target  
 
 ``` shell
 #!/bin/bash
