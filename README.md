@@ -1,9 +1,14 @@
 CSC467 HW1
 ==========
 
-Team Members:  
-Yiming Kang 998676730  
-Zexuan Wang 998851773  
+Team Members:
+Yiming Kang 998676730
+Zexuan Wang 998851773
+
+To run the script:
+`make` compiles the code
+`make test` compliles and runs diff and consistency tests; all tests input and targeted output locate under the /tests folder
+`make target` overwrites current output targeted output
 
 How we dealt with special problems encountered:
 1- Deterministic and systematic testing:
@@ -20,7 +25,7 @@ for file in ./*.frag; do
     ../compiler467 -Tn "$file" > "$file".out 2>&1
     DIFF=$(diff "$file".out "$file".target)
     OUT=$(python verify.py "$file".out)
-    if [ "$DIFF" != "" ] 
+    if [ "$DIFF" != "" ]
     then
         printf "diff   %-30s --- \e[1;31mFAILED\e[1;0m\n" "$file"
         echo "*****TEST $file FAILED TO MATCH TARGET*****"
@@ -29,7 +34,7 @@ for file in ./*.frag; do
         printf "diff   %-30s --- \e[1;32mOK\e[1;0m\n" "$file"
     fi
 
-    if [ "$OUT" != "" ] 
+    if [ "$OUT" != "" ]
     then
         printf "verify %-30s --- \e[1;31mFAILED\e[1;0m\n" "$file"
         echo "*****TEST $file FAILED TO PRODUCE CONSITENT TOKEN*****"
@@ -42,13 +47,12 @@ rm -f *.out
 echo "==================== TESTING ENDS ====================="
 ```
 
-
 ```python
 import re
 import sys
 
 KNOWN_TOKENS = [
-        'if', 'else', 'for', 'while', 'void', ',', '(', ')', 
+        'if', 'else', 'for', 'while', 'void', ',', '(', ')',
         '{', '}', '[', ']', ':', 'bool', 'int', 'float',
         '"', 'dp3', 'lit', 'rsq', '=', 'const', ';', '\'',
 ]
@@ -73,7 +77,6 @@ def main(file_name):
                         ret = -1
                 else:
                     seen_tokens[token] = value
-    # print seen_tokens
     return ret
 
 if __name__ == '__main__':
@@ -85,4 +88,9 @@ if __name__ == '__main__':
 
 ```
 
-
+2- Corner Case Checking:
+Another problem we entered is to check corner cases when we scan the code. This includes three major corner case checkings:
+1) int value must lie within -2^21 to 2^21-1. This is done by simply makeing the yytext has no more than 7 characters and use atoi to ensure the value lies within the range.
+2) float value must have same range as C. This is done by atof and making it does not gernearte any error.
+3) identifier cannot have more than 32 characters, this is a simple lenght check.
+All three corner cases are included in the invalid testing cases.
