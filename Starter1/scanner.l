@@ -1,7 +1,8 @@
 %{
 /**********************************************************************
  *
- * **YOUR GROUP INFO SHOULD GO HERE**
+ * YIMING KANG: 998676730
+ * ZEXUAN WANG: 998851773
  *
  *  Interface to the scanner module for CSC467 course project
  **********************************************************************/
