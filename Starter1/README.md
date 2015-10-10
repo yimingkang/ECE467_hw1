@@ -1,14 +1,17 @@
 CSC467 HW1
 ==========
 
-Team Members:
+Group number:
+cd-004
+Team members:
 Yiming Kang 998676730
 Zexuan Wang 998851773
 
-To run the script:
+To run:
+`make clean` cleans up any generated output files
 `make` compiles the code
 `make test` compliles and runs diff and consistency tests; all tests input and targeted output locate under the /tests folder
-`make target` overwrites current output targeted output
+`make target` overwrites current targeted output with the actual output from running "./compiler467 -Tn <test_input>"
 
 How we dealt with special problems encountered:
 1- Deterministic and systematic testing:
@@ -88,9 +91,9 @@ if __name__ == '__main__':
 
 ```
 
-2- Corner Case Checking:
-Another problem we entered is to check corner cases when we scan the code. This includes three major corner case checkings:
-1) int value must lie within -2^21 to 2^21-1. This is done by simply makeing the yytext has no more than 7 characters and use atoi to ensure the value lies within the range.
-2) float value must have same range as C. This is done by atof and making it does not gernearte any error.
+2- Error Checking:
+Another problem we entered is to check error cases when we scan the code. This includes three major corner case:
+1) int value must lie within -2^21 to 2^21-1. This is done by simply making the yytext has no more than 7 characters and use atoi to ensure the value lies within the range.
+2) float value must have same range as C. This is done by atof and making sure that it does not gernearte any error.
 3) identifier cannot have more than 32 characters, this is a simple lenght check.
-All three corner cases are included in the invalid testing cases.
+All three cases are included in the invalid testing cases.
